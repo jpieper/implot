@@ -126,9 +126,10 @@ void ShowImPlotDemoWindow(bool* p_open) {
     }
     //-------------------------------------------------------------------------
     if (ImGui::CollapsingHeader("Line Plots")) {
-        static float xs1[1001], ys1[1001];
-        for (int i = 0; i < 1001; ++i) {
-            xs1[i] = i * 0.001f;
+        constexpr int count = 40000;
+        static float xs1[count], ys1[count];
+        for (int i = 0; i < count; ++i) {
+            xs1[i] = i * 0.0001f;
             ys1[i] = 0.5f + 0.5f * sin(50 * xs1[i]);
         }
         static float xs2[11], ys2[11];
@@ -136,8 +137,9 @@ void ShowImPlotDemoWindow(bool* p_open) {
             xs2[i] = i * 0.1f;
             ys2[i] = xs2[i] * xs2[i];
         }
+        ImGui::SetNextPlotLimitsX(0.0, 5.0);
         if (ImGui::BeginPlot("Line Plot", "x", "f(x)", {-1,300})) {
-            ImGui::Plot("sin(50*x)", xs1, ys1, 1001);
+            ImGui::Plot("sin(50*x)", xs1, ys1, count);
             ImGui::PushPlotStyleVar(ImPlotStyleVar_Marker, ImMarker_Circle);
             ImGui::Plot("x^2", xs2, ys2, 11);
             ImGui::PopPlotStyleVar();
